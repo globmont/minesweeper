@@ -100,7 +100,7 @@ class Game(object):
                 self.stdscr.addstr(3, 2 * self.cols + 3, "Remaining: {:d}   ".format(self.num_mines - self.num_flags))
                 self.stdscr.addstr(4, 2 * self.cols + 3, "State: {:s}".format(state), state_color)
 
-            if curses.LINES >= 21:
+            if curses.LINES >= 14:
                 self.stdscr.addstr(6, 2 * self.cols + 3, "Key", curses.A_BOLD | curses.A_UNDERLINE)
                 self.stdscr.addstr(7, 2 * self.cols + 3, Game.symbols['COVERED'] + "  undiscovered", curses.color_pair(2))
                 self.stdscr.addstr(8, 2 * self.cols + 3, Game.symbols['FLAG'] + "  flag", curses.color_pair(3))
@@ -108,14 +108,15 @@ class Game(object):
                 self.stdscr.addstr(10, 2 * self.cols + 3, Game.symbols['QUESTION'] + "  unsure", curses.color_pair(2))
                 self.stdscr.addstr(11, 2 * self.cols + 3, Game.symbols['MINE'] + "  unfound mine", curses.color_pair(1))
                 self.stdscr.addstr(12, 2 * self.cols + 3, Game.symbols['MINE_TRIGGERED'] + "  triggered mine", curses.color_pair(1))
-                self.stdscr.addstr(13, 2 * self.cols + 3, Game.symbols['1'] + "  1 nearby mine")
-                self.stdscr.addstr(14, 2 * self.cols + 3, Game.symbols['2'] + "  2 nearby mines")
-                self.stdscr.addstr(15, 2 * self.cols + 3, Game.symbols['3'] + "  3 nearby mines")
-                self.stdscr.addstr(16, 2 * self.cols + 3, Game.symbols['4'] + "  4 nearby mines")
-                self.stdscr.addstr(17, 2 * self.cols + 3, Game.symbols['5'] + "  5 nearby mines")
-                self.stdscr.addstr(18, 2 * self.cols + 3, Game.symbols['6'] + "  6 nearby mines")
-                self.stdscr.addstr(19, 2 * self.cols + 3, Game.symbols['7'] + "  7 nearby mines")
-                self.stdscr.addstr(20, 2 * self.cols + 3, Game.symbols['8'] + "  8 nearby mines")
+                self.stdscr.addstr(13, 2 * self.cols + 3, Game.symbols['0'] + "  0 nearby mines", curses.color_pair(4) | curses.A_DIM)
+                # self.stdscr.addstr(14, 2 * self.cols + 3, Game.symbols['1'] + "  1 nearby mine")
+                # self.stdscr.addstr(15, 2 * self.cols + 3, Game.symbols['2'] + "  2 nearby mines")
+                # self.stdscr.addstr(16, 2 * self.cols + 3, Game.symbols['3'] + "  3 nearby mines")
+                # self.stdscr.addstr(17, 2 * self.cols + 3, Game.symbols['4'] + "  4 nearby mines")
+                # self.stdscr.addstr(18, 2 * self.cols + 3, Game.symbols['5'] + "  5 nearby mines")
+                # self.stdscr.addstr(19, 2 * self.cols + 3, Game.symbols['6'] + "  6 nearby mines")
+                # self.stdscr.addstr(20, 2 * self.cols + 3, Game.symbols['7'] + "  7 nearby mines")
+                # self.stdscr.addstr(21, 2 * self.cols + 3, Game.symbols['8'] + "  8 nearby mines")
         self.stdscr.move(*curr_pos)
 
     def win(self):
