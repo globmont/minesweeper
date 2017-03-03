@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import curses, time
+import curses, time, sys
 from curses import wrapper
 from random import randint
 from optparse import OptionParser
@@ -110,19 +110,12 @@ class Game(object):
                 self.stdscr.addstr(12, 2 * self.cols + 3, Game.symbols['MINE_TRIGGERED'] + "  triggered mine", curses.color_pair(1))
                 self.stdscr.addstr(13, 2 * self.cols + 3, Game.symbols['0'] + "  0 nearby mines", curses.color_pair(4) | curses.A_DIM)
 
-            if curses.LINES >= 19:
+            if curses.LINES >= 20:
                 self.stdscr.addstr(15, 2 * self.cols + 3, "Controls", curses.A_BOLD | curses.A_UNDERLINE)
                 self.stdscr.addstr(16, 2 * self.cols + 3, "Uncover tile: <space>")
                 self.stdscr.addstr(17, 2 * self.cols + 3, "Move cursor: arrows/hjkl")
                 self.stdscr.addstr(18, 2 * self.cols + 3, "Mark tile: f/o")
-                # self.stdscr.addstr(14, 2 * self.cols + 3, Game.symbols['1'] + "  1 nearby mine")
-                # self.stdscr.addstr(15, 2 * self.cols + 3, Game.symbols['2'] + "  2 nearby mines")
-                # self.stdscr.addstr(16, 2 * self.cols + 3, Game.symbols['3'] + "  3 nearby mines")
-                # self.stdscr.addstr(17, 2 * self.cols + 3, Game.symbols['4'] + "  4 nearby mines")
-                # self.stdscr.addstr(18, 2 * self.cols + 3, Game.symbols['5'] + "  5 nearby mines")
-                # self.stdscr.addstr(19, 2 * self.cols + 3, Game.symbols['6'] + "  6 nearby mines")
-                # self.stdscr.addstr(20, 2 * self.cols + 3, Game.symbols['7'] + "  7 nearby mines")
-                # self.stdscr.addstr(21, 2 * self.cols + 3, Game.symbols['8'] + "  8 nearby mines")
+                self.stdscr.addstr(19, 2 * self.cols + 3, "Quit: q")
         self.stdscr.move(*curr_pos)
 
     def win(self):
@@ -265,7 +258,9 @@ def main(stdscr):
     if game.finished:
         curses.nocbreak()
         game.draw_status()
-        stdscr.getkey()
+        key = stdscr.getkey()
+        if key == 'q':
+            sys.exit(0)
 
 if __name__ == '__main__':
     wrapper(main)
