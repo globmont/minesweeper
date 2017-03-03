@@ -263,7 +263,7 @@ def main(stdscr):
 
 
     if game.finished:
-        stdscr.nodelay(False)
+        curses.nocbreak()
         game.draw_status()
         stdscr.getkey()
 
