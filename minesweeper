@@ -121,6 +121,7 @@ class Game(object):
     def win(self):
         self.finished = True
         self.game_won = True
+        self.draw_status()
 
     def lose(self):
         self.finished = True
@@ -131,6 +132,8 @@ class Game(object):
                     self.set(row, col, 'MINE')
                 if self.board[row][col] != Game.symbols['MINE'] and self.display_board[row][col] == Game.symbols['FLAG']:
                     self.set(row, col, 'FLAG_WRONG')
+
+        self.draw_status()
 
     def display(self):
         return '\n'.join([' '.join(row) for row in self.display_board])
@@ -211,7 +214,7 @@ def main(stdscr):
 
     options.rows = min(options.rows, curses.LINES)
     options.cols = min(options.cols, int(curses.COLS / 2))
-    options.mines = min(options.mines, int(options.rows * options.cols / 7.1)) # magic number
+    # options.mines = min(options.mines, int(options.rows * options.cols / 7.1)) # magic number
 
     game = Game(stdscr, options.rows, options.cols, options.mines)
 
@@ -226,41 +229,35 @@ def main(stdscr):
     curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
     redraw(stdscr, game)
 
-    while not game.finished:
-        game.draw_status()
+    while True:
+        if not game.finished:
+            game.draw_status()
         try:
-            key = stdscr.getkey()
+            key = stdscr.getkey().lower()
         except:
             continue
         curr_row, curr_col = stdscr.getyx()
-        if key == 'KEY_LEFT' or key == 'h':
+        if key == 'key_left' or key == 'h':
             if curr_col > 2:
                 stdscr.move(curr_row, curr_col - 2)
-        elif key == 'KEY_RIGHT' or key == 'l':
+        elif key == 'key_right' or key == 'l':
             if curr_col < game.cols * 2:
                 stdscr.move(curr_row, curr_col + 2)
-        elif key == 'KEY_UP' or key == 'k':
+        elif key == 'key_up' or key == 'k':
             if curr_row > 1:
                 stdscr.move(curr_row - 1, curr_col)
-        elif key == 'KEY_DOWN' or key == 'j':
+        elif key == 'key_down' or key == 'j':
             if curr_row < game.rows:
                 stdscr.move(curr_row + 1, curr_col)
-        elif key == ' ':
+        elif key == ' ' and not game.finished:
             game.uncover(curr_row - 1, int(curr_col / 2) - 1)
             # redraw(stdscr, game)
-        elif key == 'f' or key == 'o':
+        elif (key == 'f' or key == 'o') and not game.finished:
             game.mark(curr_row - 1, int(curr_col / 2) - 1)
             # redraw(stdscr, game)
         elif key == 'q':
-            break
+            return
 
-
-    if game.finished:
-        curses.nocbreak()
-        game.draw_status()
-        key = stdscr.getkey()
-        if key == 'q':
-            sys.exit(0)
 
 if __name__ == '__main__':
     wrapper(main)
