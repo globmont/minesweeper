@@ -161,7 +161,8 @@ class Game(object):
                 visited.add(curr_pos)
                 if self.display_board[curr_pos[0]][curr_pos[1]] == Game.symbols['FLAG']:
                     self.num_flags -= 1
-                self.set(curr_pos[0], curr_pos[1], self.board[curr_pos[0]][curr_pos[1]], refresh=False)
+                self.set(curr_pos[0], curr_pos[1], self.board[curr_pos[0]][curr_pos[1]], refresh=True)
+                time.sleep(.0005)
                 for neighbor in self.__get_neighbors(curr_pos[0], curr_pos[1]):
                     if neighbor in visited:
                         continue
@@ -222,7 +223,7 @@ def main(stdscr):
     game = Game(stdscr, options.rows, options.cols, options.mines)
 
     stdscr.clear()
-    stdscr.nodelay(True)
+    curses.halfdelay(10)
     stdscr.border(0)
     stdscr.move(1, 2)
     stdscr.refresh()
@@ -259,6 +260,7 @@ def main(stdscr):
             # redraw(stdscr, game)
         elif key == 'q':
             break
+
 
     if game.finished:
         stdscr.nodelay(False)
