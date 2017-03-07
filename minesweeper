@@ -210,7 +210,7 @@ def redraw(stdscr, game):
 
 def main(stdscr):
 
-    options, args = parser.parse_args()
+    global options
 
     options.rows = min(options.rows, curses.LINES)
     options.cols = min(options.cols, int(curses.COLS / 2))
@@ -260,4 +260,6 @@ def main(stdscr):
 
 
 if __name__ == '__main__':
+    global options, args
+    options, args = parser.parse_args()
     wrapper(main)
